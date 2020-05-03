@@ -9,8 +9,18 @@ import Pages from './pages';
 import injectStyles from './styles';
 
 const cache = new InMemoryCache();
+cache.writeData({
+    data: {
+        isLoggedIn: !!localStorage.getItem('token'),
+        cartItems: [],
+    },
+});
+
 const link = new HttpLink({
     uri: 'http://localhost:4000/',
+    headers: {
+        authorization: localStorage.getItem('token'),
+    },
 });
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
